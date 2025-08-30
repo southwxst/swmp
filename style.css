@@ -7,6 +7,77 @@ body {
       margin: 0;
       height: 100vh;
     }
+ /* シークバー全体の高さ */
+
+
+ /* シークバー全体の高さ */
+#seekBar {
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 5px;
+  background: #444; /* ベースの背景色 */
+  cursor: pointer;
+  outline: none;
+}
+
+/* WebKit系（Chrome, Safariなど） */
+#seekBar::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 5px;
+  background: transparent; /* 親要素の背景を透過 */
+}
+
+#seekBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #a8c6fb;
+  margin-top: -4px;
+  cursor: pointer;
+}
+
+/* Firefox */
+#seekBar::-moz-range-track {
+  height: 6px;
+  border-radius: 5px;
+  background: transparent; /* 親要素の背景を透過 */
+}
+
+#seekBar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #a8c6fb;
+  border: none;
+  cursor: pointer;
+}
+
+/* Edge/IE */
+#seekBar::-ms-track {
+  height: 6px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+#seekBar::-ms-fill-lower {
+  background: #a8c6fb; /* 進捗部分の色 */
+  border-radius: 5px;
+}
+
+#seekBar::-ms-fill-upper {
+  background: #444; /* 残り部分の色 */
+  border-radius: 5px;
+}
+
+#seekBar::-ms-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #a8c6fb;
+  border: none;
+}
 
     .video-container {
       position: relative;
@@ -18,7 +89,14 @@ body {
       width: 100%;
       display: block;
     }
-
+#playPause {
+  border-radius: 20px ;
+      background: #a8c6fb;
+}
+#browser{
+  border-radius: 20px ;
+        background: #a8c6fb;
+}
     #fileInput {
       display: none;
     }
@@ -40,7 +118,7 @@ body {
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: none;
       display: flex;
       align-items: center;
       padding: 8px;

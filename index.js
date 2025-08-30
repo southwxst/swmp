@@ -87,3 +87,20 @@ container.addEventListener("click", (e) => {
   playandpause();
 
 });
+
+// timeupdateイベントの進捗更新処理を修正
+video.addEventListener("timeupdate", () => {
+  if (!video.duration) return; // メタデータ未読み込み時は処理しない
+  
+  const value = (video.currentTime / video.duration) * 100;
+  seekBar.value = value;
+  
+  // 進捗バーの背景を動的に更新
+  seekBar.style.background = `linear-gradient(to right, #a8c6fb ${value}%, #444 ${value}%)`;
+});
+
+// 動画メタデータ読み込み完了時の処理を追加
+video.addEventListener("loadedmetadata", () => {
+  seekBar.value = 0;
+  seekBar.style.background = "linear-gradient(to right, #a8c6fb 0%, #444 0%)";
+});
