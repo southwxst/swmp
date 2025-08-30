@@ -1,0 +1,56 @@
+body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: black;
+      color: #e2e3e2;
+      margin: 0;
+      height: 100vh;
+    }
+
+    .video-container {
+      position: relative;
+      background: black;
+    }
+
+    video {
+      height: 910px;
+      width: 100%;
+      display: block;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    #selectBtn {
+      padding: 5px 10px;
+      border-radius: 28px;
+      border: 1px solid #666;
+      background: #a8c6fb;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #selectBtn:hover {
+      background: #ddd;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .controls button,
+    .controls input[type="range"] {
+      margin: 0 6px;
+    }
+    .controls input[type="range"] {
+      flex: 1;
+    }
