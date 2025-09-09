@@ -7,19 +7,23 @@
   <link rel="stylesheet" href="style.css">
 
   <link rel="icon" type="image/x-icon" href="https://www.vim.org/images/vim_shortcut.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
 </head>
 <body>
   <input type="file" id="fileInput" accept="video/*,.mkv">
 
   <div class="video-container">
     <video id="videoPlayer"></video>
-
     <div class="controls">
-      <button id="playPause">▶︎</button>
-      <button id="browser">📁</button>
       <input type="range" id="seekBar" value="0">
+      <div class="imgs">
+      <img src="imgs/play.webp" alt="play" id="playPause">
+      <img src="imgs/folder.webp" alt="" id="browser">
+      <p id="time">0.00 / 0.00</p>
+      </div>
+              </div>
     </div>
-  </div>
 
   <button id="selectBtn">参照</button>
 

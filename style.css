@@ -2,13 +2,20 @@ body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: black;
+        font-family: 'Noto Sans JP', sans-serif;
+      background-color: #141416;
       color: #e2e3e2;
       margin: 0;
       height: 100vh;
     }
  /* シークバー全体の高さ */
 
+#time {
+  margin: 0;
+  font-size: 14px; /* 必要に応じて */
+  display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
+  align-self: center;   /* Flexbox内で縦位置を真ん中に */
+}
 
  /* シークバー全体の高さ */
 #seekBar {
@@ -32,7 +39,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #a8c6fb;
+  background: #54fc17;
   margin-top: -4px;
   cursor: pointer;
 }
@@ -48,7 +55,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #a8c6fb;
+  background: #54fc17;
   border: none;
   cursor: pointer;
 }
@@ -62,7 +69,7 @@ body {
 }
 
 #seekBar::-ms-fill-lower {
-  background: #a8c6fb; /* 進捗部分の色 */
+  background: #54fc17; /* 進捗部分の色 */
   border-radius: 5px;
 }
 
@@ -75,7 +82,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #a8c6fb;
+  background: #54fc17;
   border: none;
 }
 
@@ -85,17 +92,16 @@ body {
     }
 
     video {
-      height: 910px;
-      width: 100%;
+        width: 100%;
+  min-height: 100vh;
       display: block;
     }
-#playPause {
-  border-radius: 20px ;
-      background: #a8c6fb;
+.green {
+  border-radius: 10px ;
+      background: #54fc17;
 }
-#browser{
-  border-radius: 20px ;
-        background: #a8c6fb;
+img{
+   width: 17px;
 }
     #fileInput {
       display: none;
@@ -103,32 +109,42 @@ body {
 
     #selectBtn {
       padding: 5px 10px;
-      border-radius: 28px;
+      border-radius: 5px;
       border: 1px solid #666;
-      background: #a8c6fb;
+      background: #54fc17;
       cursor: pointer;
       margin-top: 10px;
     }
     #selectBtn:hover {
       background: #ddd;
     }
+.imgs{
+  gap: 1em;
+  padding: 8px;
+  display: flex;
+  align-items: start;
+}
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: none;
+  display: flex;
+  flex-direction: column; /* ←縦方向に変更 */
+  gap: 1em;
+  padding: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-    .controls {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: none;
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
     .controls button,
     .controls input[type="range"] {
       margin: 0 6px;
     }
+    .controls input[type="range"] {
+  width: 99%; /* 横幅いっぱい */
+}
     .controls input[type="range"] {
       flex: 1;
     }

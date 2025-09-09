@@ -6,6 +6,18 @@
     const container = document.querySelector(".video-container");
 const controls = document.querySelector(".controls");
 
+function formatTime(seconds) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  } else {
+    return `${m}:${String(s).padStart(2, "0")}`;
+  }
+}
+
 function browserFIle(){
       const file = fileInput.files[0];
       if (file) {
@@ -20,24 +32,28 @@ function browserFIle(){
 }
 function playandpause(){
   if (video.paused) {
-    playPause.textContent = "︎⏸";
+    playPause.src = "imgs/play.webp";
+      playPause.alt = "play";
     video.play();
     
   } else {
-      playPause.textContent = "▶";
+      playPause.src = "imgs/pause.webp";
+      playPause.alt = "pause";
     video.pause();
   }
 }
-container.addEventListener("mousemove", (e) => {
-  const rect = container.getBoundingClientRect();
-  const y = e.clientY - rect.top;
-
-  if (y > rect.height - 100) { // 下から100pxの範囲
-    controls.style.opacity = 1;
-  } else {
-    controls.style.opacity = 0;
-  }
+controls.addEventListener("mouseenter", () => {
+  controls.style.opacity = 1;
 });
+
+controls.addEventListener("mouseleave", () => {
+  controls.style.opacity = 0;
+});
+
+video.addEventListener("click", () => {
+  playandpause();
+})
+
 
 
     // ファイル選択
@@ -51,7 +67,8 @@ container.addEventListener("mousemove", (e) => {
 function loadVideo(file) {
   const url = URL.createObjectURL(file);
   video.src = url;
-          playPause.textContent = "⏸";
+playPause.src = "imgs/play.webp";
+      playPause.alt = "play";
     video.play();              // 再生開始
 
 
@@ -81,26 +98,27 @@ function loadVideo(file) {
       }
     });
 
-container.addEventListener("click", (e) => {
-  // コントロールをクリックしたときは無効化
-  if (e.target.closest(".controls")) return;
-  playandpause();
-
-});
 
 // timeupdateイベントの進捗更新処理を修正
 video.addEventListener("timeupdate", () => {
-  if (!video.duration) return; // メタデータ未読み込み時は処理しない
-  
+  if (!video.duration) return;
+
   const value = (video.currentTime / video.duration) * 100;
   seekBar.value = value;
-  
+
+  let currentTime = Math.trunc(video.currentTime);
+  let durationTime = Math.trunc(video.duration);
+  const time = document.getElementById("time");
+
+  time.textContent = `${formatTime(currentTime)} / ${formatTime(durationTime)}`;
+
   // 進捗バーの背景を動的に更新
-  seekBar.style.background = `linear-gradient(to right, #a8c6fb ${value}%, #444 ${value}%)`;
+  seekBar.style.background = `linear-gradient(to right, #54fc17 ${value}%, #444 ${value}%)`;
 });
+
 
 // 動画メタデータ読み込み完了時の処理を追加
 video.addEventListener("loadedmetadata", () => {
   seekBar.value = 0;
-  seekBar.style.background = "linear-gradient(to right, #a8c6fb 0%, #444 0%)";
+  seekBar.style.background = "linear-gradient(to right, #54fc17 0%, #444 0%)";
 });
