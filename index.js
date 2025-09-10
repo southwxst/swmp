@@ -1,5 +1,5 @@
     const fileInput = document.getElementById("fileInput");
-    const selectBtn = document.getElementById("selectBtn");
+    const browser = document.getElementById("browser");
     const video = document.getElementById("videoPlayer");
     const playPause = document.getElementById("playPause");
     const seekBar = document.getElementById("seekBar");
@@ -44,6 +44,7 @@ function playandpause(){
 }
 controls.addEventListener("mouseenter", () => {
   controls.style.opacity = 1;
+
 });
 
 controls.addEventListener("mouseleave", () => {
@@ -57,7 +58,6 @@ video.addEventListener("click", () => {
 
 
     // ファイル選択
-    selectBtn.addEventListener("click", () => fileInput.click());
     browser.addEventListener("click", () => fileInput.click());
 
     fileInput.addEventListener("change", () => {
@@ -65,14 +65,21 @@ video.addEventListener("click", () => {
     });
 
 function loadVideo(file) {
+  const key = file.name
   const url = URL.createObjectURL(file);
   video.src = url;
 playPause.src = "imgs/play.webp";
       playPause.alt = "play";
-    video.play();              // 再生開始
+      if(localStorage.getItem(`${key}_unchi`)){
+        video.currentTime = localStorage.getItem(`${key}_time`)
+        console.log("succelfuly loaded a video time")
+      }
+      else{
+        localStorage.setItem(`${key}_unchi`, `${key}`)
+        console.log("setted link to local storage")
 
-
-  selectBtn.remove();
+      }
+      video.play();
 }
 
 
@@ -90,13 +97,32 @@ playPause.src = "imgs/play.webp";
       video.currentTime = (seekBar.value / 100) * video.duration;
     });
 
-    // Spaceキーで再生/停止
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space") {
-        e.preventDefault(); // ページスクロールを防ぐ
-        playandpause();
-      }
-    });
+   // Spaceキーや速度変更、シーク操作
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    e.preventDefault(); // ページスクロールを防ぐ
+    playandpause();
+  }
+  if (e.code === "KeyX") {
+    video.playbackRate = 1.5;
+  }
+    if (e.code === "KeyS") {
+      fileInput.click();
+  }
+
+  if (e.code === "KeyE") {
+    video.playbackRate = 1;
+  }
+  if (e.code === "ArrowRight") {
+    // 10秒進める
+    video.currentTime = Math.min(video.currentTime + 10, video.duration);
+  }
+  if (e.code === "ArrowLeft") {
+    // 10秒戻す
+    video.currentTime = Math.max(video.currentTime - 10, 0);
+  }
+});
+
 
 
 // timeupdateイベントの進捗更新処理を修正
@@ -109,7 +135,10 @@ video.addEventListener("timeupdate", () => {
   let currentTime = Math.trunc(video.currentTime);
   let durationTime = Math.trunc(video.duration);
   const time = document.getElementById("time");
-
+  const key = fileInput.files[0]?.name; // ファイル名をキーに
+  if (key) {
+    localStorage.setItem(`${key}_time`, `${currentTime}`);
+  }
   time.textContent = `${formatTime(currentTime)} / ${formatTime(durationTime)}`;
 
   // 進捗バーの背景を動的に更新
