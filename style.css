@@ -1,3 +1,4 @@
+
 body {
       display: flex;
       flex-direction: column;
@@ -12,9 +13,22 @@ body {
 
 #time {
   margin: 0;
+  position: absolute;
+  left: 93px;
   font-size: 14px; /* 必要に応じて */
   display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
   align-self: center;   /* Flexbox内で縦位置を真ん中に */
+}
+#file_name{
+  margin: 0;
+    position: absolute;
+      left: 50%;
+  transform: translateX(-50%); /* 完全に中央に配置 */
+
+  font-size: 14px; /* 必要に応じて */
+  display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
+  align-self: center;   /* Flexbox内で縦位置を真ん中に */
+
 }
 
  /* シークバー全体の高さ */
