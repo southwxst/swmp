@@ -6,3 +6,5 @@ https://southwxst.github.io/swmp/index.html
 - Play mkv, mp4
 ## TODO
 - [ ] Add history feature
+- [ ] Add volume control
+- [ ] Add playback speed control
