@@ -103,6 +103,7 @@ body {
     .video-container {
       position: relative;
       background: black;
+      display: none;
     }
 
     video {

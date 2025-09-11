@@ -4,6 +4,7 @@ const video = document.getElementById("videoPlayer");
 const playPause = document.getElementById("playPause");
 const file_name = document.getElementById("file_name");
 const seekBar = document.getElementById("seekBar");
+const selectBtn = document.getElementById("selectBtn");
 const container = document.querySelector(".video-container");
 const controls = document.querySelector(".controls");
 
@@ -56,12 +57,16 @@ video.addEventListener("click", () => {
 
 // ファイル選択
 browser.addEventListener("click", () => fileInput.click());
+selectBtn.addEventListener("click", () => fileInput.click());
 
 fileInput.addEventListener("change", () => {
   browserFIle();
 });
 
 function loadVideo(file) {
+   if (container.style.display !== "block") {
+    container.style.display = "block";
+  }
   const key = file.name;
   const url = URL.createObjectURL(file);
   video.src = url;
@@ -76,6 +81,7 @@ function loadVideo(file) {
   }
   file_name.textContent = key
   video.play();
+  selectBtn.remove
 }
 
 // 再生 / 停止
