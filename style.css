@@ -10,7 +10,14 @@ body {
       height: 100vh;
     }
  /* シークバー全体の高さ */
-
+.tx{
+	align-items: center;
+  display: flex;
+  margin: auto;
+  gap: 13px;
+  font-size: 44px; 
+  font-weight: bold;
+}
 #time {
   margin: 0;
   position: absolute;
@@ -123,15 +130,7 @@ img{
     }
 
     #selectBtn {
-      padding: 5px 10px;
-      border-radius: 5px;
-      border: 1px solid #666;
-      background: #54fc17;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    #selectBtn:hover {
-      background: #ddd;
+	    color: #54fc17;
     }
 .imgs{
   gap: 1em;

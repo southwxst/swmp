@@ -7,6 +7,7 @@ const seekBar = document.getElementById("seekBar");
 const selectBtn = document.getElementById("selectBtn");
 const container = document.querySelector(".video-container");
 const controls = document.querySelector(".controls");
+const tx = document.querySelector(".tx");
 
 function formatTime(seconds) {
   const h = Math.floor(seconds / 3600);
@@ -34,15 +35,20 @@ function browserFIle() {
 }
 function playandpause() {
   if (video.paused) {
-    playPause.src = "imgs/play.webp";
-    playPause.alt = "play";
     video.play();
   } else {
-    playPause.src = "imgs/pause.webp";
-    playPause.alt = "pause";
     video.pause();
   }
 }
+video.addEventListener("pause", () => {
+  playPause.src = "imgs/pause.webp";
+  playPause.alt = "pause";
+});
+video.addEventListener("play", () => {
+  playPause.src = "imgs/play.webp";
+  playPause.alt = "play";
+});
+
 controls.addEventListener("mouseenter", () => {
   controls.style.opacity = 1;
 });
@@ -57,8 +63,10 @@ video.addEventListener("click", () => {
 
 // ファイル選択
 browser.addEventListener("click", () => fileInput.click());
-selectBtn.addEventListener("click", () => fileInput.click());
-
+selectBtn.addEventListener("click", (e) => {
+  e.preventDefault(); // ← ページ遷移を止める
+  fileInput.click();
+});
 fileInput.addEventListener("change", () => {
   browserFIle();
 });
@@ -81,7 +89,8 @@ function loadVideo(file) {
   }
   file_name.textContent = key
   video.play();
-  selectBtn.remove
+	    tx.style.display = "none";
+
 }
 
 // 再生 / 停止
@@ -146,3 +155,15 @@ video.addEventListener("loadedmetadata", () => {
   seekBar.value = 0;
   seekBar.style.background = "linear-gradient(to right, #54fc17 0%, #444 0%)";
 });
+// body全体にドラッグ&ドロップ対応
+document.body.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+document.body.addEventListener("drop", (e) => {
+  e.preventDefault();
+  if (e.dataTransfer.files.length > 0) {
+    fileInput.files = e.dataTransfer.files; // input[type=file] にセット
+    browserFIle(); // 共通の関数を呼ぶ
+  }
+});
+

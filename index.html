@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Simple Media player</title>
-  <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Simple Media player</title>
+    <link rel="stylesheet" href="style.css" />
 
-  <link rel="icon" type="image/x-icon" href="https://www.vim.org/images/vim_shortcut.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://www.vim.org/images/vim_shortcut.ico"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <input type="file" id="fileInput" accept="video/*,.mkv" />
 
-</head>
-<body>
-  <input type="file" id="fileInput" accept="video/*,.mkv">
-
-  <div class="video-container">
-    <video id="videoPlayer"></video>
-    <div class="controls">
-      <input type="range" id="seekBar" value="0">
-      <div class="imgs">
-      <img src="imgs/play.webp" alt="play" id="playPause">
-      <img src="imgs/folder.webp" alt="" id="browser">
-      <div id="texts"></div>
-      <p id="time">0:00 / 0:00</p>
-      <p id="file_name">file name</p>
+    <div class="video-container">
+      <video id="videoPlayer"></video>
+      <div class="controls">
+        <input type="range" id="seekBar" value="0" />
+        <div class="imgs">
+          <img src="imgs/play.webp" alt="play" id="playPause" />
+          <img src="imgs/folder.webp" alt="" id="browser" />
+          <div id="texts"></div>
+          <p id="time">0:00 / 0:00</p>
+          <p id="file_name">file name</p>
+        </div>
       </div>
-              </div>
     </div>
-    <button id="selectBtn">Open file</button>
-<script src="index.js">
-  </script>
-</body>
+    <div class="tx">
+      <p>Drop file or</p>
+      <a href="" id="selectBtn">open file</a>
+    </div>
+    <script src="index.js"></script>
+  </body>
 </html>
