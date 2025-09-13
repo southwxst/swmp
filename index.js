@@ -16,7 +16,6 @@ function formatTime(seconds) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = Math.floor(seconds % 60);
-
   if (h > 0) {
     return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   } else {
@@ -47,6 +46,8 @@ function playandpause() {
 
 // 再生中だけ進捗を更新する関数
 function updateSeekBar() {
+  if (!video.duration) return; // durationが未設定の場合は処理しない
+
   const value = (video.currentTime / video.duration) * 100;
   seekBar.value = value;
   seekBar.style.background = `linear-gradient(to right, #54fc17 ${value}%, #444 ${value}%)`;
@@ -57,6 +58,7 @@ function updateSeekBar() {
   const time = document.getElementById("time");
   time.textContent = `${formatTime(currentTime)} / ${formatTime(durationTime)}`;
 
+  // 再生中のみアニメーションを継続
   if (!video.paused && !video.ended) {
     rafId = requestAnimationFrame(updateSeekBar);
   }
@@ -81,8 +83,15 @@ video.addEventListener("play", () => {
       localStorage.setItem(`${key}_time`, `${video.currentTime}`);
     }
   }, 10000);
-
   requestAnimationFrame(updateSeekBar); // 背景更新を開始
+});
+
+// 時間が変更されたら常に更新（キーボード操作などに対応）
+video.addEventListener("timeupdate", () => {
+  // アニメーションがスケジュールされていない場合のみ更新
+  if (!rafId && video.paused) {
+    updateSeekBar();
+  }
 });
 
 controls.addEventListener("mousemove", () => {
@@ -108,6 +117,7 @@ selectBtn.addEventListener("click", (e) => {
   e.preventDefault(); // ← ページ遷移を止める
   fileInput.click();
 });
+
 fileInput.addEventListener("change", () => {
   browserFIle();
 });
@@ -136,8 +146,10 @@ playPause.addEventListener("click", () => {
   playandpause();
 });
 
+// seekBar操作時に即座に背景を更新
 seekBar.addEventListener("input", () => {
   video.currentTime = (seekBar.value / 100) * video.duration;
+  updateSeekBar(); // 即座に背景を更新
 });
 
 // Spaceキーや速度変更、シーク操作
@@ -146,7 +158,6 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault(); // ページスクロールを防ぐ
     playandpause();
   }
-
   if (e.code === "KeyO") {
     fileInput.click();
   }
@@ -156,14 +167,16 @@ document.addEventListener("keydown", (e) => {
   if (e.code === "ArrowRight") {
     // 10秒進める
     video.currentTime = Math.min(video.currentTime + 10, video.duration);
+    updateSeekBar(); // 即座に背景を更新
   }
   if (e.code === "ArrowLeft") {
     // 10秒戻す
     video.currentTime = Math.max(video.currentTime - 10, 0);
+    updateSeekBar(); // 即座に背景を更新
   }
 });
 
-// 動画メタデータ読み込み完了時の処理を追加
+// 動画メタデータ読み込み完了時の処理
 video.addEventListener("loadedmetadata", () => {
   seekBar.value = 0;
   seekBar.style.background = "linear-gradient(to right, #54fc17 0%, #444 0%)";
@@ -174,6 +187,7 @@ video.addEventListener("loadedmetadata", () => {
 document.body.addEventListener("dragover", (e) => {
   e.preventDefault();
 });
+
 document.body.addEventListener("drop", (e) => {
   e.preventDefault();
   if (e.dataTransfer.files.length > 0) {

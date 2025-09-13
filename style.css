@@ -1,21 +1,20 @@
-
 body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-        font-family: 'Noto Sans JP', sans-serif;
-      background-color: #141416;
-      color: #e2e3e2;
-      margin: 0;
-      height: 100vh;
-    }
- /* シークバー全体の高さ */
-.tx{
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Noto Sans JP", sans-serif;
+  background-color: #141416;
+  color: #e2e3e2;
+  margin: 0;
+  height: 100vh;
+}
+/* シークバー全体の高さ */
+.tx {
+  align-items: center;
   display: flex;
   margin: auto;
   gap: 13px;
-  font-size: 44px; 
+  font-size: 44px;
   font-weight: bold;
 }
 #time {
@@ -24,21 +23,20 @@ body {
   left: 93px;
   font-size: 14px; /* 必要に応じて */
   display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
-  align-self: center;   /* Flexbox内で縦位置を真ん中に */
+  align-self: center; /* Flexbox内で縦位置を真ん中に */
 }
-#file_name{
+#file_name {
   margin: 0;
-    position: absolute;
-      left: 50%;
+  position: absolute;
+  left: 50%;
   transform: translateX(-50%); /* 完全に中央に配置 */
 
   font-size: 14px; /* 必要に応じて */
   display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
-  align-self: center;   /* Flexbox内で縦位置を真ん中に */
-
+  align-self: center; /* Flexbox内で縦位置を真ん中に */
 }
 
- /* シークバー全体の高さ */
+/* シークバー全体の高さ */
 #seekBar {
   -webkit-appearance: none;
   height: 6px;
@@ -107,32 +105,32 @@ body {
   border: none;
 }
 
-    .video-container {
-      position: relative;
-      background: black;
-      display: none;
-    }
+.video-container {
+  position: relative;
+  background: black;
+  display: none;
+}
 
-    video {
-        width: 100%;
+video {
+  width: 100%;
   min-height: 100vh;
-      display: block;
-    }
+  display: block;
+}
 .green {
-  border-radius: 10px ;
-      background: #54fc17;
+  border-radius: 10px;
+  background: #54fc17;
 }
-img{
-   width: 17px;
+img {
+  width: 17px;
 }
-    #fileInput {
-      display: none;
-    }
+#fileInput {
+  display: none;
+}
 
-    #selectBtn {
-	    color: #54fc17;
-    }
-.imgs{
+#selectBtn {
+  color: #54fc17;
+}
+.imgs {
   gap: 1em;
   padding: 13px;
   display: flex;
@@ -152,13 +150,13 @@ img{
   transition: opacity 0.3s;
 }
 
-    .controls button,
-    .controls input[type="range"] {
-      margin: 0 6px;
-    }
-    .controls input[type="range"] {
+.controls button,
+.controls input[type="range"] {
+  margin: 0 6px;
+}
+.controls input[type="range"] {
   width: 99%; /* 横幅いっぱい */
 }
-    .controls input[type="range"] {
-      flex: 1;
-    }
+.controls input[type="range"] {
+  flex: 1;
+}
