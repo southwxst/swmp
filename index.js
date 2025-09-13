@@ -36,19 +36,19 @@ function browserFIle() {
 function playandpause() {
   if (video.paused) {
     video.play();
-    controls.style.opacity = 0;
   } else {
     video.pause();
-    controls.style.opacity = 1;
   }
 }
 video.addEventListener("pause", () => {
   playPause.src = "imgs/pause.webp";
   playPause.alt = "pause";
+  controls.style.opacity = 1;
 });
 video.addEventListener("play", () => {
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
+  controls.style.opacity = 0;
 });
 
 controls.addEventListener("mouseenter", () => {
@@ -101,11 +101,6 @@ playPause.addEventListener("click", () => {
   playandpause();
 });
 
-// シークバー更新
-video.addEventListener("timeupdate", () => {
-  seekBar.value = (video.currentTime / video.duration) * 100;
-});
-
 seekBar.addEventListener("input", () => {
   video.currentTime = (seekBar.value / 100) * video.duration;
 });
@@ -135,11 +130,9 @@ document.addEventListener("keydown", (e) => {
 
 // timeupdateイベントの進捗更新処理を修正
 video.addEventListener("timeupdate", () => {
-  if (!video.duration) return;
-
   const value = (video.currentTime / video.duration) * 100;
   seekBar.value = value;
-
+  seekBar.style.background = `linear-gradient(to right, #54fc17 ${value}%, #444 ${value}%)`;
   let currentTime = Math.trunc(video.currentTime);
   let durationTime = Math.trunc(video.duration);
   const time = document.getElementById("time");
@@ -150,7 +143,6 @@ video.addEventListener("timeupdate", () => {
   time.textContent = `${formatTime(currentTime)} / ${formatTime(durationTime)}`;
 
   // 進捗バーの背景を動的に更新
-  seekBar.style.background = `linear-gradient(to right, #54fc17 ${value}%, #444 ${value}%)`;
 });
 
 // 動画メタデータ読み込み完了時の処理を追加
