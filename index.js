@@ -36,8 +36,10 @@ function browserFIle() {
 function playandpause() {
   if (video.paused) {
     video.play();
+    controls.style.opacity = 0;
   } else {
     video.pause();
+    controls.style.opacity = 1;
   }
 }
 video.addEventListener("pause", () => {
@@ -50,11 +52,15 @@ video.addEventListener("play", () => {
 });
 
 controls.addEventListener("mouseenter", () => {
-  controls.style.opacity = 1;
+  if (!video.paused) {
+    controls.style.opacity = 1;
+  }
 });
 
 controls.addEventListener("mouseleave", () => {
-  controls.style.opacity = 0;
+  if (!video.paused) {
+    controls.style.opacity = 0;
+  }
 });
 
 video.addEventListener("click", () => {
@@ -72,7 +78,7 @@ fileInput.addEventListener("change", () => {
 });
 
 function loadVideo(file) {
-   if (container.style.display !== "block") {
+  if (container.style.display !== "block") {
     container.style.display = "block";
   }
   const key = file.name;
@@ -82,15 +88,12 @@ function loadVideo(file) {
   playPause.alt = "play";
   if (localStorage.getItem(`${key}_unchi`)) {
     video.currentTime = localStorage.getItem(`${key}_time`);
-    console.log("succelfuly loaded a video time");
   } else {
     localStorage.setItem(`${key}_unchi`, `${key}`);
-    console.log("setted link to local storage");
   }
-  file_name.textContent = key
+  file_name.textContent = key;
   video.play();
-	    tx.style.display = "none";
-
+  tx.style.display = "none";
 }
 
 // 再生 / 停止
@@ -113,7 +116,7 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault(); // ページスクロールを防ぐ
     playandpause();
   }
-  
+
   if (e.code === "KeyB") {
     fileInput.click();
   }
@@ -166,4 +169,3 @@ document.body.addEventListener("drop", (e) => {
     browserFIle(); // 共通の関数を呼ぶ
   }
 });
-
