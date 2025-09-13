@@ -147,7 +147,7 @@ document.addEventListener("keydown", (e) => {
     playandpause();
   }
 
-  if (e.code === "KeyB") {
+  if (e.code === "KeyO") {
     fileInput.click();
   }
   if (e.code === "KeyE") {

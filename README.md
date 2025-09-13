@@ -10,10 +10,17 @@ https://southwxst.github.io/swmp
 
 - Play mkv, mp4
 - Drag and drop support
+- Automatically saves playback position
+ 
+## Key Bindings
 
+- Space: Play/Pause
+- Left Arrow: Rewind 10 seconds
+- Right Arrow: Fast forward 10 seconds
+- O key: Open file dialog
+ 
 ## TODO
 
-- [ ] Add history feature
 - [ ] Add volume control
 - [ ] Add playback speed control
 - [x] Add drag and drop support
