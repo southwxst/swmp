@@ -10,7 +10,6 @@ const controls = document.querySelector(".controls");
 const tx = document.querySelector(".tx");
 let saveInterval;
 let idleTimer;
-let rafId; // requestAnimationFrame ID
 
 function formatTime(seconds) {
   const h = Math.floor(seconds / 3600);
@@ -22,7 +21,6 @@ function formatTime(seconds) {
     return `${m}:${String(s).padStart(2, "0")}`;
   }
 }
-
 function browserFIle() {
   const file = fileInput.files[0];
   if (file) {
@@ -35,7 +33,6 @@ function browserFIle() {
     }
   }
 }
-
 function playandpause() {
   if (video.paused) {
     video.play();
@@ -43,25 +40,18 @@ function playandpause() {
     video.pause();
   }
 }
-
 // 再生中だけ進捗を更新する関数
 function updateSeekBar() {
-  if (!video.duration) return; // durationが未設定の場合は処理しない
+  if (!video.duration) return;
 
-  const value = (video.currentTime / video.duration) * 100;
-  seekBar.value = value;
-  seekBar.style.background = `linear-gradient(to right, #54fc17 ${value}%, #444 ${value}%)`;
+  const percent = Math.floor((video.currentTime / video.duration) * 100);
+  seekBar.value = percent;
+  seekBar.style.background = `linear-gradient(to right, #54fc17 ${percent}%, #444 ${percent}%)`;
 
-  // 時間表示も更新
-  let currentTime = Math.trunc(video.currentTime);
-  let durationTime = Math.trunc(video.duration);
   const time = document.getElementById("time");
+  let currentTime = Math.floor(video.currentTime); // trunc → floor に変更
+  let durationTime = Math.floor(video.duration);
   time.textContent = `${formatTime(currentTime)} / ${formatTime(durationTime)}`;
-
-  // 再生中のみアニメーションを継続
-  if (!video.paused && !video.ended) {
-    rafId = requestAnimationFrame(updateSeekBar);
-  }
 }
 
 video.addEventListener("pause", () => {
@@ -72,7 +62,6 @@ video.addEventListener("pause", () => {
   cancelAnimationFrame(rafId); // 背景更新を止める
   updateSeekBar(); // 最後に一度更新
 });
-
 video.addEventListener("play", () => {
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
@@ -83,45 +72,36 @@ video.addEventListener("play", () => {
       localStorage.setItem(`${key}_time`, `${video.currentTime}`);
     }
   }, 10000);
-  requestAnimationFrame(updateSeekBar); // 背景更新を開始
+  updateSeekBar();
 });
-
 // 時間が変更されたら常に更新（キーボード操作などに対応）
 video.addEventListener("timeupdate", () => {
   // アニメーションがスケジュールされていない場合のみ更新
-  if (!rafId && video.paused) {
-    updateSeekBar();
-  }
+  updateSeekBar();
 });
-
 controls.addEventListener("mousemove", () => {
   if (!video.paused) {
     controls.style.opacity = 1;
     startIdleTimer();
   }
 });
-
 controls.addEventListener("mouseleave", () => {
   if (!video.paused) {
     controls.style.opacity = 0;
   }
 });
-
 video.addEventListener("click", () => {
   playandpause();
 });
-
 // ファイル選択
 browser.addEventListener("click", () => fileInput.click());
 selectBtn.addEventListener("click", (e) => {
   e.preventDefault(); // ← ページ遷移を止める
   fileInput.click();
 });
-
 fileInput.addEventListener("change", () => {
   browserFIle();
 });
-
 function loadVideo(file) {
   if (container.style.display !== "block") {
     container.style.display = "block";
@@ -140,18 +120,15 @@ function loadVideo(file) {
   video.play();
   tx.style.display = "none";
 }
-
 // 再生 / 停止
 playPause.addEventListener("click", () => {
   playandpause();
 });
-
 // seekBar操作時に即座に背景を更新
 seekBar.addEventListener("input", () => {
   video.currentTime = (seekBar.value / 100) * video.duration;
   updateSeekBar(); // 即座に背景を更新
 });
-
 // Spaceキーや速度変更、シーク操作
 document.addEventListener("keydown", (e) => {
   if (e.code === "Space") {
@@ -167,27 +144,24 @@ document.addEventListener("keydown", (e) => {
   if (e.code === "ArrowRight") {
     // 10秒進める
     video.currentTime = Math.min(video.currentTime + 10, video.duration);
-    updateSeekBar(); // 即座に背景を更新
+	      e.preventDefault(); 
   }
   if (e.code === "ArrowLeft") {
     // 10秒戻す
     video.currentTime = Math.max(video.currentTime - 10, 0);
-    updateSeekBar(); // 即座に背景を更新
+	      e.preventDefault();
   }
 });
-
 // 動画メタデータ読み込み完了時の処理
 video.addEventListener("loadedmetadata", () => {
   seekBar.value = 0;
   seekBar.style.background = "linear-gradient(to right, #54fc17 0%, #444 0%)";
   updateSeekBar(); // 読み込んだら一度更新
 });
-
 // body全体にドラッグ&ドロップ対応
 document.body.addEventListener("dragover", (e) => {
   e.preventDefault();
 });
-
 document.body.addEventListener("drop", (e) => {
   e.preventDefault();
   if (e.dataTransfer.files.length > 0) {
@@ -195,9 +169,11 @@ document.body.addEventListener("drop", (e) => {
     browserFIle(); // 共通の関数を呼ぶ
   }
 });
-
 function startIdleTimer() {
   if (!fileInput.files[0] && !video.paused) {
+    return;
+  }
+  if (!video.played) {
     return;
   }
   clearTimeout(idleTimer); // 前のタイマーをリセット
