@@ -144,12 +144,10 @@ document.addEventListener("keydown", (e) => {
   if (e.code === "ArrowRight") {
     // 10秒進める
     video.currentTime = Math.min(video.currentTime + 10, video.duration);
-	      e.preventDefault(); 
   }
   if (e.code === "ArrowLeft") {
     // 10秒戻す
     video.currentTime = Math.max(video.currentTime - 10, 0);
-	      e.preventDefault();
   }
 });
 // 動画メタデータ読み込み完了時の処理
