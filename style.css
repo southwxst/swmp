@@ -2,7 +2,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: 'JetBrains Mono';
   background-color: #141416;
   color: #e2e3e2;
   margin: 0;
@@ -13,14 +13,15 @@ body {
   align-items: center;
   display: flex;
   margin: auto;
-  gap: 13px;
+  gap: 18px;
   font-size: 44px;
-  font-weight: bold;
+  font-weight: 900;
 }
+
 #time {
   margin: 0;
   position: absolute;
-  left: 93px;
+    left: 93px;
   font-size: 14px; /* 必要に応じて */
   display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
   align-self: center; /* Flexbox内で縦位置を真ん中に */
@@ -35,10 +36,26 @@ body {
   display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
   align-self: center; /* Flexbox内で縦位置を真ん中に */
 }
+#volume{
+	  display: none;
+}
+#volumeBar {
+  -webkit-appearance: none; /* Chrome, Safari */
+  appearance: none;         /* 標準 */
+  display: none;
+ position: absolute;
+  left: 120px;
+  height: 6px;
+  width: 60px !important;
+  border-radius: 5px;
+  background: #e2e3e2;
+  cursor: pointer;
+  outline: none;
+}
 
 /* シークバー全体の高さ */
 #seekBar {
-  -webkit-appearance: none;
+	  -webkit-appearance: none; /* Chrome, Safari */
   height: 6px;
   border-radius: 5px;
   background: #444; /* ベースの背景色 */
@@ -58,7 +75,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #54fc17;
+  background: #449df9;
   margin-top: -4px;
   cursor: pointer;
 }
@@ -74,7 +91,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #54fc17;
+  background: #449df9;
   border: none;
   cursor: pointer;
 }
@@ -88,7 +105,7 @@ body {
 }
 
 #seekBar::-ms-fill-lower {
-  background: #54fc17; /* 進捗部分の色 */
+  background: #449df9; /* 進捗部分の色 */
   border-radius: 5px;
 }
 
@@ -101,7 +118,7 @@ body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #54fc17;
+  background: #449df9;
   border: none;
 }
 
@@ -118,7 +135,7 @@ video {
 }
 .green {
   border-radius: 10px;
-  background: #54fc17;
+  background: #449df9;
 }
 img {
   width: 17px;
@@ -128,7 +145,7 @@ img {
 }
 
 #selectBtn {
-  color: #54fc17;
+  color: #449df9;
 }
 .imgs {
   gap: 1em;
@@ -147,16 +164,4 @@ img {
   gap: 1em;
   padding: 13px;
   opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.controls button,
-.controls input[type="range"] {
-  margin: 0 6px;
-}
-.controls input[type="range"] {
-  width: 99%; /* 横幅いっぱい */
-}
-.controls input[type="range"] {
-  flex: 1;
 }

@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Simple Media player</title>
     <link rel="stylesheet" href="style.css" />
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="icon"
       type="image/x-icon"
@@ -22,10 +25,12 @@
     <div class="video-container">
       <video id="videoPlayer"></video>
       <div class="controls">
-        <input type="range" id="seekBar" value="0" />
+        <input type="range" id="seekBar" value="0" step="0.01" />
         <div class="imgs">
+		    <img src="imgs/folder.webp" alt="" id="browser" />
           <img src="imgs/play.webp" alt="play" id="playPause" />
-          <img src="imgs/folder.webp" alt="" id="browser" />
+	      <img src="imgs/medium-volume.webp" alt="" id="volume" />
+	              <input type="range" id="volumeBar" value="100" min="0" max="100"/>
           <div id="texts"></div>
           <p id="time">0:00 / 0:00</p>
           <p id="file_name">file name</p>
@@ -36,6 +41,12 @@
       <p>Drop file or</p>
       <a href="" id="selectBtn">open file</a>
     </div>
+        <div class="test">
+
+	    	      <img src="imgs/medium-volume.webp" alt="" id="volume" />
+	              <input type="range" id="volumeBar" value="100" min="0" max="100"/>
+    </div>
+
     <script src="index.js"></script>
   </body>
 </html>
