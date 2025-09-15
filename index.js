@@ -16,7 +16,7 @@ let idleTimer;
 
 video.addEventListener("volumechange", () => {
   if (video.volume > 0) {
-	  localStorage.setItem("lastVolume", video.volume);
+    localStorage.setItem("lastVolume", video.volume);
   }
 });
 function formatTime(seconds) {
@@ -63,10 +63,10 @@ function updateSeekBar() {
 }
 
 video.addEventListener("pause", () => {
+  clearInterval(saveInterval);
+  controls.style.opacity = 1;
   playPause.src = "imgs/pause.webp";
   playPause.alt = "pause";
-  controls.style.opacity = 1;
-  clearInterval(saveInterval);
   updateSeekBar(); // 最後に一度更新
 });
 video.addEventListener("play", () => {
@@ -125,8 +125,8 @@ function loadVideo(file) {
   }
   file_name.textContent = key;
   video.play();
-  tx.style.display = "none";
-	    video.volume = lastVolume || 100;
+  tx.remove();
+  video.volume = lastVolume || 100;
 }
 // 再生 / 停止
 playPause.addEventListener("click", () => {
@@ -134,18 +134,19 @@ playPause.addEventListener("click", () => {
 });
 volumeBtn.addEventListener("click", () => {
   if (video.volume === 0) {
-    // ミュート → 復元
     video.volume = lastVolume || 1;
     volumeBtn.src = "imgs/medium-volume.webp";
     volumeBar.value = video.volume * 100;
+    // 色の境界を明確にするために同じパーセンテージを使用
+    volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   } else {
-    // 音あり → ミュート
     video.volume = 0;
     volumeBtn.src = "imgs/volume-mute.webp";
     volumeBar.value = 0;
+    // 色の境界を明確にするために同じパーセンテージを使用
+    volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   }
-});
-// seekBar操作時に即座に背景を更新
+});// seekBar操作時に即座に背景を更新
 seekBar.addEventListener("input", () => {
   video.currentTime = (seekBar.value / 100) * video.duration;
   updateSeekBar(); // 即座に背景を更新
@@ -153,10 +154,16 @@ seekBar.addEventListener("input", () => {
 volumeBar.addEventListener("input", () => {
   video.volume = volumeBar.value / 100;
   if (video.volume === 0) {
+    clearTimeout(idleTimer);
     volumeBtn.src = "imgs/volume-mute.webp";
+    // 色の境界を明確にするために同じパーセンテージを使用
+    volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   } else {
+    clearTimeout(idleTimer);
     volumeBtn.src = "imgs/medium-volume.webp";
-    lastVolume = video.volume; // 現在の音量を保存
+    lastVolume = video.volume;
+    // 色の境界を明確にするために同じパーセンテージを使用
+    volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   }
 });
 // Spaceキーや速度変更、シーク操作
@@ -198,14 +205,13 @@ document.body.addEventListener("drop", (e) => {
   }
 });
 function startIdleTimer() {
-  if (!fileInput.files[0] && !video.paused) {
-    return;
-  }
-  if (!video.played) {
+  if (!fileInput.files[0] || !video.played) {
+    console.log("dsaldsjakl");
     return;
   }
   clearTimeout(idleTimer); // 前のタイマーをリセット
   idleTimer = setTimeout(() => {
     controls.style.opacity = 0;
+    console.log("idle");
   }, 5000);
 }

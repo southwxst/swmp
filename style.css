@@ -20,36 +20,30 @@ body {
 
 #time {
   margin: 0;
-  position: absolute;
-    left: 93px;
   font-size: 14px; /* 必要に応じて */
-  display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
-  align-self: center; /* Flexbox内で縦位置を真ん中に */
+    white-space: nowrap;
 }
 #file_name {
+	flex : 1;
   margin: 0;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%); /* 完全に中央に配置 */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  text-align: center;
+   padding-right: 305px; /* 内側からずらす */
+  width: 100%;
+}
 
-  font-size: 14px; /* 必要に応じて */
-  display: inline-block; /* ←これでアイコンと同じラインに並ぶ */
-  align-self: center; /* Flexbox内で縦位置を真ん中に */
-}
-#volume{
-	  display: none;
-}
 #volumeBar {
+
   -webkit-appearance: none; /* Chrome, Safari */
   appearance: none;         /* 標準 */
-  display: none;
- position: absolute;
-  left: 120px;
   height: 6px;
   width: 60px !important;
   border-radius: 5px;
-  background: #e2e3e2;
   cursor: pointer;
+  background: linear-gradient(to right, #e2e3e2 100%, #444 100%);
   outline: none;
 }
 
@@ -123,7 +117,6 @@ body {
 }
 
 .video-container {
-  position: relative;
   background: black;
   display: none;
 }
@@ -151,7 +144,7 @@ img {
   gap: 1em;
   padding: 13px;
   display: flex;
-  align-items: start;
+  align-items: center;
 }
 .controls {
   position: absolute;
@@ -164,4 +157,32 @@ img {
   gap: 1em;
   padding: 13px;
   opacity: 0;
+}
+/* WebKit系（Chrome, Safariなど） */
+#volumeBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background:  #e2e3e2;/* ここで色を変更 */
+  cursor: pointer;
+}
+
+/* Firefox */
+#volumeBar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #e2e3e2; /* ここで色を変更 */
+  border: none;
+  cursor: pointer;
+}
+
+/* Edge/IE */
+#volumeBar::-ms-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background:  #e2e3e2;/* ここで色を変更 */
+  border: none;
 }

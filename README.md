@@ -21,6 +21,6 @@ https://southwxst.github.io/swmp
  
 ## TODO
 
-- [ ] Add volume control
+- [x] Add volume control
 - [ ] Add playback speed control
 - [x] Add drag and drop support
