@@ -172,7 +172,7 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault(); // ページスクロールを防ぐ
     playandpause();
   }
-  if (e.code === "KeyO") {
+  if (e.code === "KeyB") {
     fileInput.click();
   }
   if (e.code === "KeyE") {

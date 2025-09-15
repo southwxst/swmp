@@ -17,7 +17,7 @@ https://southwxst.github.io/swmp
 - Space: Play/Pause
 - Left Arrow: Rewind 10 seconds
 - Right Arrow: Fast forward 10 seconds
-- O key: Open file dialog
+- B key: browser file
  
 ## TODO
 
