@@ -1,4 +1,4 @@
-const fileInput = document.getElementById("fileInput");
+const jfileInput = document.getElementById("fileInput");
 const browser = document.getElementById("browser");
 const video = document.getElementById("videoPlayer");
 const playPause = document.getElementById("playPause");
@@ -13,7 +13,6 @@ const tx = document.querySelector(".tx");
 let lastVolume = localStorage.getItem("lastVolume") ?? 100; // 最後の音量を保存
 let saveInterval;
 let idleTimer;
-
 video.addEventListener("volumechange", () => {
   if (video.volume > 0) {
     localStorage.setItem("lastVolume", video.volume);
@@ -70,16 +69,13 @@ video.addEventListener("pause", () => {
   updateSeekBar(); // 最後に一度更新
 });
 video.addEventListener("play", () => {
+  clearInterval(saveInterval);
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
   controls.style.opacity = 0;
   saveInterval = setInterval(() => {
-    const key = fileInput.files[0]?.name;
-    if (key) {
-      localStorage.setItem(`${key}_time`, `${video.currentTime}`);
-    }
-  }, 10000);
-  updateSeekBar();
+    updateSeekBar();
+  });
 });
 // 時間が変更されたら常に更新（キーボード操作などに対応）
 video.addEventListener("timeupdate", () => {
@@ -125,8 +121,13 @@ function loadVideo(file) {
   }
   file_name.textContent = key;
   video.play();
-  tx.remove();
+  tx.style.display = "none";
   video.volume = lastVolume || 100;
+  saveInterval = setInterval(() => {
+    if (key) {
+      localStorage.setItem(`${key}_time`, `${video.currentTime}`);
+    }
+  }, 10000);
 }
 // 再生 / 停止
 playPause.addEventListener("click", () => {
@@ -146,7 +147,7 @@ volumeBtn.addEventListener("click", () => {
     // 色の境界を明確にするために同じパーセンテージを使用
     volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   }
-});// seekBar操作時に即座に背景を更新
+}); // seekBar操作時に即座に背景を更新
 seekBar.addEventListener("input", () => {
   video.currentTime = (seekBar.value / 100) * video.duration;
   updateSeekBar(); // 即座に背景を更新
@@ -205,13 +206,16 @@ document.body.addEventListener("drop", (e) => {
   }
 });
 function startIdleTimer() {
-  if (!fileInput.files[0] || !video.played) {
+  if (!fileInput.files[0] || video.paused) {
     console.log("dsaldsjakl");
     return;
   }
   clearTimeout(idleTimer); // 前のタイマーをリセット
   idleTimer = setTimeout(() => {
-    controls.style.opacity = 0;
-    console.log("idle");
+    if (!video.paused) {
+      // 再生中なら
+      controls.style.opacity = 0;
+      console.log("idle");
+    }
   }, 5000);
 }
