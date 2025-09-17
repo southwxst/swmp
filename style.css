@@ -31,7 +31,7 @@ body {
   white-space: nowrap;
   font-size: 14px;
   text-align: center;
-   padding-right: 295px; /* 内側からずらす */
+   padding-right: 325px; /* 内側からずらす */
   width: 100%;
 }
 
