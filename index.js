@@ -10,9 +10,10 @@ const volumeBar = document.getElementById("volumeBar");
 const container = document.querySelector(".video-container");
 const controls = document.querySelector(".controls");
 const tx = document.querySelector(".tx");
-let lastVolume = localStorage.getItem("lastVolume") ?? 100; // 最後の音量を保存
+let lastVolume = localStorage.getItem("lastVolume") ?? 1; // 最後の音量を保存
 let saveInterval;
 let idleTimer;
+let removeItem = false;
 video.addEventListener("volumechange", () => {
   if (video.volume > 0) {
     localStorage.setItem("lastVolume", video.volume);
@@ -78,19 +79,27 @@ video.addEventListener("play", () => {
   });
 });
 // 時間が変更されたら常に更新（キーボード操作などに対応）
-video.addEventListener("timeupdate", () => {
-  // アニメーションがスケジュールされていない場合のみ更新
-  updateSeekBar();
-	localStorage.setItem(`${fileInput.files[0].name}_time`, video.currentTime);
-	//  const percent = (video.currentTime / video.duration) * 100;
-if((video.currentTime / video.duration) * 100 > 95 && localStorage.getItem(`${fileInput.files[0].name}_unchi`) !== null){
-		localStorage.removeItem(`${fileInput.files[0].name}_unchi`);
-  clearInterval(saveInterval);
 
-}
-else{
-		localStorage.setItem(`${fileInput.files[0].name}_time`, video.currentTime);
-}
+video.addEventListener("timeupdate", () => {
+  updateSeekBar();
+  
+  // video.durationとfileInput.files[0]が存在するか確認
+  if (video.duration && fileInput.files[0]) {
+    const percent = (video.currentTime / video.duration) * 100;
+    const key = `${fileInput.files[0].name}_time`;
+    
+    // 95%以上再生され、かつ保存された再生時間がある場合
+    if (percent > 95 && localStorage.getItem(key) !== null && !removeItem) {
+      console.log("動画が95%以上再生されました");
+      localStorage.removeItem(key);
+      clearInterval(saveInterval);
+      removeItem = true;
+      console.log("再生時間を削除しました");
+    } else if (!removeItem) {
+      // 95%未満またはまだ再生時間を削除していない場合のみ保存
+      localStorage.setItem(key, video.currentTime);
+    }
+  }
 });
 
 controls.addEventListener("mousemove", () => {
@@ -125,11 +134,12 @@ function loadVideo(file) {
   video.src = url;
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
-    video.currentTime = localStorage.getItem(`${key}_time`);
+  video.currentTime = localStorage.getItem(`${key}_time`);
   file_name.textContent = key;
   video.play();
   tx.style.display = "none";
-  video.volume = lastVolume || 100;
+  video.volume = lastVolume || 1;
+  removeItem = false; // 新しい動画を読み込んだときにフラグをリセット
 }
 // 再生 / 停止
 playPause.addEventListener("click", () => {
