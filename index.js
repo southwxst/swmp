@@ -81,7 +81,18 @@ video.addEventListener("play", () => {
 video.addEventListener("timeupdate", () => {
   // アニメーションがスケジュールされていない場合のみ更新
   updateSeekBar();
+	localStorage.setItem(`${fileInput.files[0].name}_time`, video.currentTime);
+	//  const percent = (video.currentTime / video.duration) * 100;
+if((video.currentTime / video.duration) * 100 > 95 && localStorage.getItem(`${fileInput.files[0].name}_unchi`) !== null){
+		localStorage.removeItem(`${fileInput.files[0].name}_unchi`);
+  clearInterval(saveInterval);
+
+}
+else{
+		localStorage.setItem(`${fileInput.files[0].name}_time`, video.currentTime);
+}
 });
+
 controls.addEventListener("mousemove", () => {
   if (!video.paused) {
     controls.style.opacity = 1;
@@ -114,20 +125,11 @@ function loadVideo(file) {
   video.src = url;
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
-  if (localStorage.getItem(`${key}_unchi`)) {
     video.currentTime = localStorage.getItem(`${key}_time`);
-  } else {
-    localStorage.setItem(`${key}_unchi`, `${key}`);
-  }
   file_name.textContent = key;
   video.play();
   tx.style.display = "none";
   video.volume = lastVolume || 100;
-  saveInterval = setInterval(() => {
-    if (key) {
-      localStorage.setItem(`${key}_time`, `${video.currentTime}`);
-    }
-  }, 10000);
 }
 // 再生 / 停止
 playPause.addEventListener("click", () => {
