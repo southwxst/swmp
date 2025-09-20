@@ -24,3 +24,6 @@ https://southwxst.github.io/swmp
 - [x] Add volume control
 - [ ] Add playback speed control
 - [x] Add drag and drop support
+
+## if you hated swmp
+
