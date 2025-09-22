@@ -79,16 +79,21 @@ video.addEventListener("play", () => {
     updateSeekBar();
   });
 });
+video.addEventListener("ended", () => {
+	    fileInput.click();
+
+});
+
 // 時間が変更されたら常に更新（キーボード操作などに対応）
 
 video.addEventListener("timeupdate", () => {
   updateSeekBar();
-  
+
   // video.durationとfileInput.files[0]が存在するか確認
   if (video.duration && fileInput.files[0]) {
     const percent = (video.currentTime / video.duration) * 100;
     const key = `${fileInput.files[0].name}_time`;
-    
+
     // 95%以上再生され、かつ保存された再生時間がある場合
     if (percent > 95 && localStorage.getItem(key) !== null && !removeItem) {
       console.log("動画が95%以上再生されました");
@@ -129,7 +134,7 @@ fileInput.addEventListener("change", () => {
 function loadVideo(file) {
   if (container.style.display !== "block") {
     container.style.display = "block";
-	  body.style.background = "black";
+    body.style.background = "black";
   }
   const key = file.name;
   const url = URL.createObjectURL(file);
@@ -194,11 +199,13 @@ document.addEventListener("keydown", (e) => {
     video.playbackRate = 1;
   }
   if (e.code === "ArrowRight") {
-    // 10秒進める
+    e.preventDefault(); // ページスクロールを防ぐ
+
     video.currentTime = Math.min(video.currentTime + 10, video.duration);
   }
   if (e.code === "ArrowLeft") {
-    // 10秒戻す
+    e.preventDefault(); // ページスクロールを防ぐ
+
     video.currentTime = Math.max(video.currentTime - 10, 0);
   }
 });
