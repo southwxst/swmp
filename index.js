@@ -9,6 +9,7 @@ const volumeBtn = document.getElementById("volume");
 const volumeBar = document.getElementById("volumeBar");
 const container = document.querySelector(".video-container");
 const controls = document.querySelector(".controls");
+const body = document.body;
 const tx = document.querySelector(".tx");
 let lastVolume = localStorage.getItem("lastVolume") ?? 1; // 最後の音量を保存
 let saveInterval;
@@ -128,6 +129,7 @@ fileInput.addEventListener("change", () => {
 function loadVideo(file) {
   if (container.style.display !== "block") {
     container.style.display = "block";
+	  body.style.background = "black";
   }
   const key = file.name;
   const url = URL.createObjectURL(file);
