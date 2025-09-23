@@ -24,6 +24,7 @@ entries.sort((a, b) => b[1] - a[1]);
 
 // 表示
 entries.forEach(([key, value]) => {
+	if (key === "lastVolume") return; // lastVolumeはスキップ
   let newLi = document.createElement("p");
   newLi.textContent = `${key} : ${formatTime(value)}`;
   hisotryList.appendChild(newLi);

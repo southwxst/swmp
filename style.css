@@ -8,11 +8,17 @@ body {
   margin: 0;
   height: 100vh;
 }
+#go_history{
+	    padding: 20px;
+	    font-size: 20px;
+	    align-items: center;
+}
 /* シークバー全体の高さ */
 .tx {
   align-items: center;
   display: flex;
   margin: auto;
+  padding: 0px 0px 70px 0px;
   gap: 18px;
   font-size: 44px;
   font-weight: 900;
