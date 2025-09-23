@@ -80,8 +80,7 @@ video.addEventListener("play", () => {
   });
 });
 video.addEventListener("ended", () => {
-	    fileInput.click();
-
+  fileInput.click();
 });
 
 // 時間が変更されたら常に更新（キーボード操作などに対応）
@@ -92,7 +91,7 @@ video.addEventListener("timeupdate", () => {
   // video.durationとfileInput.files[0]が存在するか確認
   if (video.duration && fileInput.files[0]) {
     const percent = (video.currentTime / video.duration) * 100;
-    const key = `${fileInput.files[0].name}_time`;
+    const key = fileInput.files[0].name;
 
     // 95%以上再生され、かつ保存された再生時間がある場合
     if (percent > 95 && localStorage.getItem(key) !== null && !removeItem) {
@@ -141,7 +140,7 @@ function loadVideo(file) {
   video.src = url;
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
-  video.currentTime = localStorage.getItem(`${key}_time`);
+  video.currentTime = localStorage.getItem({key});
   file_name.textContent = key;
   video.play();
   tx.style.display = "none";
@@ -239,4 +238,9 @@ function startIdleTimer() {
       console.log("idle");
     }
   }, 5000);
+}
+function hisotryShow() {
+for (let i = 0; i < localStorage.length; i++) {
+    console.log(localStorage.key(i) + " : " + formatTime(localStorage.getItem(localStorage.key(i))));
+  }
 }
