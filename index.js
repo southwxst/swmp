@@ -1,5 +1,6 @@
 const jfileInput = document.getElementById("fileInput");
 const browser = document.getElementById("browser");
+const go_hisotry = document.getElementById("go_history");
 const video = document.getElementById("videoPlayer");
 const playPause = document.getElementById("playPause");
 const file_name = document.getElementById("file_name");
@@ -18,6 +19,15 @@ let removeItem = false;
 video.addEventListener("volumechange", () => {
   if (video.volume > 0) {
     localStorage.setItem("lastVolume", video.volume);
+	      volumeBtn.src = "imgs/medium-volume.webp";
+	      lastVolume = video.volume;
+  }
+  if (video.volume === 0) {
+  video.volume = 0;
+    volumeBtn.src = "imgs/volume-mute.webp";
+    volumeBar.value = 0;
+    // 色の境界を明確にするために同じパーセンテージを使用
+    volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   }
 });
 function formatTime(seconds) {
@@ -134,13 +144,14 @@ function loadVideo(file) {
   if (container.style.display !== "block") {
     container.style.display = "block";
     body.style.background = "black";
+    go_hisotry.style.display = "none";
   }
   const key = file.name;
   const url = URL.createObjectURL(file);
   video.src = url;
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
-  video.currentTime = localStorage.getItem({key});
+  video.currentTime = localStorage.getItem(key);
   file_name.textContent = key;
   video.play();
   tx.style.display = "none";
@@ -180,7 +191,6 @@ volumeBar.addEventListener("input", () => {
   } else {
     clearTimeout(idleTimer);
     volumeBtn.src = "imgs/medium-volume.webp";
-    lastVolume = video.volume;
     // 色の境界を明確にするために同じパーセンテージを使用
     volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   }
@@ -206,6 +216,19 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault(); // ページスクロールを防ぐ
 
     video.currentTime = Math.max(video.currentTime - 10, 0);
+  }
+  if (e.code === "ArrowUp") {
+    e.preventDefault();
+    video.volume = Math.min(video.volume + 0.1, 1);
+    volumeBar.value = video.volume * 100;
+
+    volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
+  }
+  if (e.code === "ArrowDown") {
+    e.preventDefault();
+    video.volume = Math.max(video.volume - 0.1, 0);
+    volumeBar.value = video.volume * 100;
+    volumeBar.style.background = `linear-gradient(to right, #e2e3e2 ${volumeBar.value}%, #444 ${volumeBar.value}%)`;
   }
 });
 // 動画メタデータ読み込み完了時の処理
@@ -238,9 +261,4 @@ function startIdleTimer() {
       console.log("idle");
     }
   }, 5000);
-}
-function hisotryShow() {
-for (let i = 0; i < localStorage.length; i++) {
-    console.log(localStorage.key(i) + " : " + formatTime(localStorage.getItem(localStorage.key(i))));
-  }
 }
