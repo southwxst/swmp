@@ -17,11 +17,11 @@ let entries = [];
 for (let i = 0; i < localStorage.length; i++) {
   let key = localStorage.key(i);
   let value = Number(localStorage.getItem(key)); // 数値化
-  entries.push([key, value]);
+  entries.push([key, value, i]);
 }
 
 // 値の大きい順にソート
-entries.sort((a, b) => b[1] - a[1]);
+entries.sort((a, b) => b[2] - a[2]);
 
 // 表示
 
