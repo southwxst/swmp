@@ -46,7 +46,7 @@ function browserFIle() {
     const ext = file.name.split(".").pop().toLowerCase();
     if (["mp4", "mkv", "webm"].includes(ext)) {
       loadVideo(file);
-      document.title = file.name;
+      //document.title = file.name;
     } else {
       alert("対応形式は mp4, mkv, webm です");
     }
