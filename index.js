@@ -13,17 +13,16 @@ const controls = document.querySelector(".controls");
 const body = document.body;
 const tx = document.querySelector(".tx");
 let lastVolume = localStorage.getItem("lastVolume") ?? 1; // 最後の音量を保存
-let saveInterval;
 let idleTimer;
 let removeItem = false;
 video.addEventListener("volumechange", () => {
   if (video.volume > 0) {
     localStorage.setItem("lastVolume", video.volume);
-	      volumeBtn.src = "imgs/medium-volume.webp";
-	      lastVolume = video.volume;
+    volumeBtn.src = "imgs/medium-volume.webp";
+    lastVolume = video.volume;
   }
   if (video.volume === 0) {
-  video.volume = 0;
+    video.volume = 0;
     volumeBtn.src = "imgs/volume-mute.webp";
     volumeBar.value = 0;
     // 色の境界を明確にするために同じパーセンテージを使用
@@ -74,20 +73,15 @@ function updateSeekBar() {
 }
 
 video.addEventListener("pause", () => {
-  clearInterval(saveInterval);
   controls.style.opacity = 1;
   playPause.src = "imgs/pause.webp";
   playPause.alt = "pause";
   updateSeekBar(); // 最後に一度更新
 });
 video.addEventListener("play", () => {
-  clearInterval(saveInterval);
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
   controls.style.opacity = 0;
-  saveInterval = setInterval(() => {
-    updateSeekBar();
-  });
 });
 video.addEventListener("ended", () => {
   fileInput.click();
@@ -98,25 +92,10 @@ video.addEventListener("ended", () => {
 video.addEventListener("timeupdate", () => {
   updateSeekBar();
 
-  // video.durationとfileInput.files[0]が存在するか確認
   if (video.duration && fileInput.files[0]) {
-    const percent = (video.currentTime / video.duration) * 100;
-    const key = fileInput.files[0].name;
-
-    // 95%以上再生され、かつ保存された再生時間がある場合
-    if (percent > 95 && localStorage.getItem(key) !== null && !removeItem) {
-      console.log("動画が95%以上再生されました");
-      localStorage.removeItem(key);
-      clearInterval(saveInterval);
-      removeItem = true;
-      console.log("再生時間を削除しました");
-    } else if (!removeItem) {
-      // 95%未満またはまだ再生時間を削除していない場合のみ保存
-      localStorage.setItem(key, video.currentTime);
-    }
+    localStorage.setItem(fileInput.files[0].name, video.currentTime);
   }
 });
-
 controls.addEventListener("mousemove", () => {
   if (!video.paused) {
     controls.style.opacity = 1;

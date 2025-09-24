@@ -1,5 +1,6 @@
 const hisotryList = document.getElementById("hisotry-list");
 const backBtn = document.getElementById("backBtn");
+const removeAllHisotryBtn = document.getElementById("removeAllHisotryBtn");
 function formatTime(seconds) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -23,13 +24,34 @@ for (let i = 0; i < localStorage.length; i++) {
 entries.sort((a, b) => b[1] - a[1]);
 
 // 表示
+
+// 表示
 entries.forEach(([key, value]) => {
-	if (key === "lastVolume") return; // lastVolumeはスキップ
+  if (key === "lastVolume") return; // lastVolumeはスキップ
   let newLi = document.createElement("p");
-  newLi.textContent = `${key} : ${formatTime(value)}`;
+  let removeBtn = document.createElement("button");
+  removeBtn.textContent = "✖";
+
+  // テキストをspanに分離（削除ボタンと同居させるため）
+  let textSpan = document.createElement("span");
+  textSpan.textContent = `${key} : ${formatTime(value)}`;
+
+  // ボタンにイベントリスナー
+  removeBtn.addEventListener("click", () => {
+    localStorage.removeItem(key); // localStorageから削除
+    hisotryList.removeChild(newLi); // 表示から削除
+  });
+
+  newLi.appendChild(textSpan);
+  newLi.appendChild(removeBtn);
   hisotryList.appendChild(newLi);
 });
 backBtn.addEventListener("click", () => {
-	 history.back();
+  history.back();
 });
-//let i = 0; i < localStorage.length; i++
+removeAllHisotryBtn.addEventListener("click", () => {
+  if (confirm("Are you sure you want to clear all history?")) {
+    localStorage.clear();
+    hisotryList.innerHTML = "";
+  }
+});
