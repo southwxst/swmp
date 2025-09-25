@@ -92,7 +92,21 @@ video.addEventListener("ended", () => {
 video.addEventListener("timeupdate", () => {
   updateSeekBar();
 
-  if (video.duration && fileInput.files[0]) {
+  if (
+    video.duration &&
+    fileInput.files[0] &&
+    !removeItem &&
+    video.duration / 97 < video.currentTime
+  ) {
+    removeItem = true;
+    //localStorage.setItem(fileInput.files[0].name, video.currentTime);
+    localStorage.setItem(
+      fileInput.files[0].name + "__Finished",
+      video.currentTime,
+    );
+    localStorage.removeItem(fileInput.files[0].name);
+    console.log("a");
+  } else if (video.duration && fileInput.files[0] && !removeItem) {
     localStorage.setItem(fileInput.files[0].name, video.currentTime);
   }
 });
@@ -120,17 +134,29 @@ fileInput.addEventListener("change", () => {
   browserFIle();
 });
 function loadVideo(file) {
+  const key = file.name;
+  if (localStorage.getItem(key + "__Finished")) {
+    if (
+      confirm("You have finished watching this video. Do you want to restart?")
+    ) {
+      localStorage.removeItem(key);
+      localStorage.removeItem(key + "__Finished");
+    } else {
+      return;
+    }
+  } else if (localStorage.getItem(key)) {
+    video.currentTime = localStorage.getItem(key);
+  }
   if (container.style.display !== "block") {
     container.style.display = "block";
     body.style.background = "black";
     go_hisotry.style.display = "none";
   }
-  const key = file.name;
+
   const url = URL.createObjectURL(file);
   video.src = url;
   playPause.src = "imgs/play.webp";
   playPause.alt = "play";
-  video.currentTime = localStorage.getItem(key);
   file_name.textContent = key;
   video.play();
   tx.style.display = "none";
