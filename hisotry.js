@@ -11,7 +11,13 @@ function formatTime(seconds) {
     return `${m}:${String(s).padStart(2, "0")}`;
   }
 }
-
+function noHistory() {
+  if (!hisotryList.hasChildNodes()) {
+    let newLi = document.createElement("p");
+    newLi.textContent = "No history found.";
+    hisotryList.appendChild(newLi);
+  }
+}
 
 let entries = [];
 
@@ -28,10 +34,8 @@ for (let i = 0; i < localStorage.length; i++) {
     continue;
   }
 }
-
 // 保存した日付（新しい順）でソート
 entries.sort((a, b) => b[2] - a[2]);
-
 // 表示
 entries.forEach(([key, value, savedAt]) => {
   let newLi = document.createElement("p");
@@ -45,12 +49,14 @@ entries.forEach(([key, value, savedAt]) => {
   removeBtn.addEventListener("click", () => {
     localStorage.removeItem(key);
     hisotryList.removeChild(newLi);
+    noHistory();
   });
 
   newLi.appendChild(textSpan);
   newLi.appendChild(removeBtn);
   hisotryList.appendChild(newLi);
 });
+noHistory();
 
 // 戻るやつい
 backBtn.addEventListener("click", () => {
@@ -60,5 +66,6 @@ removeAllHisotryBtn.addEventListener("click", () => {
   if (confirm("Are you sure you want to clear all history?")) {
     localStorage.clear();
     hisotryList.innerHTML = "";
+    noHistory();
   }
 });
