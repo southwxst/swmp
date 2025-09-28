@@ -12,40 +12,47 @@ function formatTime(seconds) {
   }
 }
 
+
 let entries = [];
 
 for (let i = 0; i < localStorage.length; i++) {
   let key = localStorage.key(i);
-  let value = Number(localStorage.getItem(key)); // 数値化
-  entries.push([key, value, i]);
+  if (key === "lastVolume") continue;
+
+  try {
+    let obj = JSON.parse(localStorage.getItem(key));
+    if (!obj || typeof obj.time !== "number") continue;
+    entries.push([key, obj.time, obj.savedAt]);
+  } catch (e) {
+    // 古いデータ(JSONじゃない)はスキップ
+    continue;
+  }
 }
 
-// 値の大きい順にソート
+// 保存した日付（新しい順）でソート
 entries.sort((a, b) => b[2] - a[2]);
 
 // 表示
-
-// 表示
-entries.forEach(([key, value]) => {
-  if (key === "lastVolume") return; // lastVolumeはスキップ
+entries.forEach(([key, value, savedAt]) => {
   let newLi = document.createElement("p");
   let removeBtn = document.createElement("button");
   removeBtn.textContent = "✖";
 
-  // テキストをspanに分離（削除ボタンと同居させるため）
   let textSpan = document.createElement("span");
-  textSpan.textContent = `${key} : ${formatTime(value)}`;
+  let date = new Date(savedAt).toLocaleString(); // 保存日時を表示
+  textSpan.textContent = `${key} : ${formatTime(value)} (${date})`;
 
-  // ボタンにイベントリスナー
   removeBtn.addEventListener("click", () => {
-    localStorage.removeItem(key); // localStorageから削除
-    hisotryList.removeChild(newLi); // 表示から削除
+    localStorage.removeItem(key);
+    hisotryList.removeChild(newLi);
   });
 
   newLi.appendChild(textSpan);
   newLi.appendChild(removeBtn);
   hisotryList.appendChild(newLi);
 });
+
+// 戻るやつい
 backBtn.addEventListener("click", () => {
   history.back();
 });

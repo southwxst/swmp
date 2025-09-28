@@ -100,14 +100,17 @@ video.addEventListener("timeupdate", () => {
   ) {
     removeItem = true;
     //localStorage.setItem(fileInput.files[0].name, video.currentTime);
-    localStorage.setItem(
-      fileInput.files[0].name + "__Finished",
-      video.currentTime,
-    );
+localStorage.setItem("FINISHED__" + fileInput.files[0].name, JSON.stringify({
+  time: video.currentTime,
+  savedAt: Date.now()
+}));
     localStorage.removeItem(fileInput.files[0].name);
     console.log("a");
   } else if (video.duration && fileInput.files[0] && !removeItem) {
-    localStorage.setItem(fileInput.files[0].name, video.currentTime);
+	  localStorage.setItem(fileInput.files[0].name, JSON.stringify({
+  time: video.currentTime,
+  savedAt: Date.now() // UNIXタイムスタンプ
+}));
   }
 });
 controls.addEventListener("mousemove", () => {
@@ -133,20 +136,32 @@ selectBtn.addEventListener("click", (e) => {
 fileInput.addEventListener("change", () => {
   browserFIle();
 });
+
 function loadVideo(file) {
   const key = file.name;
-  if (localStorage.getItem(key + "__Finished")) {
+
+  // 完了フラグがある場合
+  if (localStorage.getItem("FINISHED__" + key)) {
     if (
       confirm("You have finished watching this video. Do you want to restart?")
     ) {
       localStorage.removeItem(key);
-      localStorage.removeItem(key + "__Finished");
+      localStorage.removeItem("FINISHED__" + key);
     } else {
       return;
     }
   } else if (localStorage.getItem(key)) {
-    video.currentTime = localStorage.getItem(key);
+    try {
+      let obj = JSON.parse(localStorage.getItem(key));
+      if (obj && typeof obj.time === "number") {
+        video.currentTime = obj.time;
+      }
+    } catch (e) {
+      // 古いデータ（JSONでない場合）は数値として扱う
+      video.currentTime = Number(localStorage.getItem(key)) || 0;
+    }
   }
+
   if (container.style.display !== "block") {
     container.style.display = "block";
     body.style.background = "black";
@@ -163,6 +178,7 @@ function loadVideo(file) {
   video.volume = lastVolume || 1;
   removeItem = false; // 新しい動画を読み込んだときにフラグをリセット
 }
+
 // 再生 / 停止
 playPause.addEventListener("click", () => {
   playandpause();
