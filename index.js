@@ -96,7 +96,7 @@ video.addEventListener("timeupdate", () => {
     video.duration &&
     fileInput.files[0] &&
     !removeItem &&
-    video.duration * 0.95 < video.currentTime
+    video.duration * 0.9 < video.currentTime
   ) {
     removeItem = true;
     //localStorage.setItem(fileInput.files[0].name, video.currentTime);
