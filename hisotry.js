@@ -60,7 +60,7 @@ noHistory();
 
 // 戻るやつい
 backBtn.addEventListener("click", () => {
-  history.back();
+	window.location.href = "index.html";
 });
 removeAllHisotryBtn.addEventListener("click", () => {
   if (confirm("Are you sure you want to clear all history?")) {
