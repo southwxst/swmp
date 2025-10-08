@@ -222,6 +222,9 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault(); // ページスクロールを防ぐ
     playandpause();
   }
+  if (e.code === "Enter") {
+    playandpause();
+  }
   if (e.code === "KeyB") {
     fileInput.click();
   }
