@@ -100,17 +100,23 @@ video.addEventListener("timeupdate", () => {
   ) {
     removeItem = true;
     //localStorage.setItem(fileInput.files[0].name, video.currentTime);
-localStorage.setItem("FINISHED__" + fileInput.files[0].name, JSON.stringify({
-  time: video.currentTime,
-  savedAt: Date.now()
-}));
+    localStorage.setItem(
+      "FINISHED__" + fileInput.files[0].name,
+      JSON.stringify({
+        time: video.currentTime,
+        savedAt: Date.now(),
+      })
+    );
     localStorage.removeItem(fileInput.files[0].name);
     console.log("a");
   } else if (video.duration && fileInput.files[0] && !removeItem) {
-	  localStorage.setItem(fileInput.files[0].name, JSON.stringify({
-  time: video.currentTime,
-  savedAt: Date.now() // UNIXタイムスタンプ
-}));
+    localStorage.setItem(
+      fileInput.files[0].name,
+      JSON.stringify({
+        time: video.currentTime,
+        savedAt: Date.now(), // UNIXタイムスタンプ
+      })
+    );
   }
 });
 controls.addEventListener("mousemove", () => {

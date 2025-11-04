@@ -2,16 +2,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'JetBrains Mono';
+  font-family: "JetBrains Mono";
   background-color: #141416;
   color: #e2e3e2;
   margin: 0;
   height: 100vh;
 }
-#go_history{
-	    padding: 20px;
-	    font-size: 20px;
-	    align-items: center;
+
+#go_history {
+  padding: 20px;
+  font-size: 20px;
+  align-items: center;
 }
 /* シークバー全体の高さ */
 .tx {
@@ -27,24 +28,23 @@ body {
 #time {
   margin: 0;
   font-size: 14px; /* 必要に応じて */
-    white-space: nowrap;
+  white-space: nowrap;
 }
 #file_name {
-	flex : 1;
+  flex: 1;
   margin: 0;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   font-size: 14px;
   text-align: center;
-   padding-right: 325px; /* 内側からずらす */
+  padding-right: 325px; /* 内側からずらす */
   width: 100%;
 }
 
 #volumeBar {
-
   -webkit-appearance: none; /* Chrome, Safari */
-  appearance: none;         /* 標準 */
+  appearance: none; /* 標準 */
   height: 6px;
   width: 60px !important;
   border-radius: 5px;
@@ -55,7 +55,7 @@ body {
 
 /* シークバー全体の高さ */
 #seekBar {
-	  -webkit-appearance: none; /* Chrome, Safari */
+  -webkit-appearance: none; /* Chrome, Safari */
   height: 6px;
   border-radius: 5px;
   background: #444; /* ベースの背景色 */
@@ -170,7 +170,7 @@ a {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background:  #e2e3e2;/* ここで色を変更 */
+  background: #e2e3e2; /* ここで色を変更 */
   cursor: pointer;
 }
 
@@ -189,6 +189,6 @@ a {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background:  #e2e3e2;/* ここで色を変更 */
+  background: #e2e3e2; /* ここで色を変更 */
   border: none;
 }
