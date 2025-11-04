@@ -2,7 +2,7 @@
 
 This is a simple web media player built with HTML, CSS, and JavaScript. It allows you to play video files directly in your web browser.
 
-![screenshot](screenshots/SCR-20251105-bgem.jpeg)
+![screenshot](screenshots/SCR-20251105-bgem.webp)
 
 ## Link
 
